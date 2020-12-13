@@ -69,7 +69,7 @@ class SearchAlgorithms:
                 while currentNode != self.startNode:
                     pathh.append(currentNode.id)
                     #fullPa.append()?
-                    self.totalCost:=self.totalCost+currentNode.hOfN
+                    self.totalCost+=self.totalCost+currentNode.hOfN
                     currentNode=currentNode.previousNode
                 self.path=pathh[::-1]
                 return self.path, self.fullPath, self.totalCost
