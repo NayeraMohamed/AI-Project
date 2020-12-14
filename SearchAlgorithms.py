@@ -12,8 +12,6 @@ class Node:
 
     def __init__(self, value):
         self.value = value
-        #split string to construct 2d nodes array then loop and fill properties of each node
-
 
 class SearchAlgorithms:
     ''' * DON'T change Class, Function or Parameters Names and Order
@@ -25,30 +23,64 @@ class SearchAlgorithms:
     totalCost = -1  # Represents the total cost in case using UCS, AStar (Euclidean or Manhattan)
     startNode = None
     goalNode = None
+
     def __init__(self, mazeStr, heristicValue=None):
+
         ''' mazeStr contains the full board
          The board is read row wise,
         the nodes are numbered 0-based starting
         the leftmost node'''
 
-        #will need obj from class Node to access the maze array and set startNode and goalNode here
-
-        '''self.startNode.id=mazeStr[0]
-        self.startNode.hOfN=heristicValue[0]
-
-        res=mazeStr.find('E')
-        self.goalNode.id=mazeStr[res]
-        self.startNode.hOfN=heristicValue[res];'''
-        Node = [Node] * 3
-        for y1 in range(1,3):
-            fake[y1] = [Node] * 3
-        fake[0][0].value='S'
-        fake[0][0].id=1
-        fake[0][0].right= Node('#')
-
-        fake[0][1].value='S'
-        fake[1][0].value='S'
-        fake[1][1].value='S'
+        rows = mazeStr.split()
+        rowsNumber, colsNumber = (len(rows), len(rows[0]) / 2 + 1)
+        maze = [[Node('S') for j in range(colsNumber)] for i in range(rowsNumber)]
+        idCounter = 0
+        heristicCounter = 0
+        for i in range(rowsNumber):
+            columnCounter = 0
+            for j in range(colsNumber):
+                maze[i][j].id = idCounter
+                maze[i][j].value = rows[i][columnCounter]
+                if maze[i][j].value == 'S':
+                    startNode = maze[i][j].value
+                if maze[i][j].value == 'E':
+                    goalNode = maze[i][j].value
+                if heristicValue is not None:
+                    maze[i][j].hOfN = heristicValue[heristicCounter]
+                    heristicCounter += 1
+                idCounter += 1
+                columnCounter += 2 #to ignore column separators(',')
+                #first row
+                if i == 0:
+                    maze[i][j].down = maze[i + 1][j]
+                    if j is not 0:
+                        maze[i][j].left = maze[i][j - 1]
+                    if j is not colsNumber - 1:
+                        maze[i][j].right = maze[i][j + 1]
+                #last row
+                elif i == rowsNumber - 1:
+                    maze[i][j].up = maze[i-1][j]
+                    if j is not 0:
+                        maze[i][j].left = maze[i][j - 1]
+                    if j is not colsNumber - 1:
+                        maze[i][j].right = maze[i][j + 1]
+                #first column
+                elif j == 0:
+                    maze[i][j].up = maze[i - 1][j]
+                    maze[i][j].down = maze[i + 1][j]
+                    maze[i][j].right = maze[i][j + 1]
+                #last column
+                elif j == colsNumber - 1:
+                    maze[i][j].up = maze[i - 1][j]
+                    maze[i][j].down = maze[i + 1][j]
+                    maze[i][j].left = maze[i][j - 1]
+                #cells at the center
+                else:
+                    maze[i][j].up = maze[i - 1][j]
+                    maze[i][j].down = maze[i + 1][j]
+                    maze[i][j].left = maze[i][j - 1]
+                    maze[i][j].right = maze[i][j + 1]
+        pass
 
     def DLS(self):
         # Fill the correct path in self.path
@@ -63,6 +95,7 @@ class SearchAlgorithms:
     def BFS(self):
         # Fill the correct path in self.path
         # self.fullPath should contain the order of visited nodes
+
         open = [self.startNode]
         closed = []
         self.fullPath.append(self.startNode)
@@ -104,8 +137,7 @@ class SearchAlgorithms:
         self.fullPath=[]
         self.totalCost=0
         return self.path, self.fullPath, self.totalCost
-
-
+      
 def main():
     searchAlgo = SearchAlgorithms('S,.,.,#,.,.,. .,#,.,.,.,#,. .,#,.,.,.,.,. .,.,#,#,.,.,. #,.,#,E,.,#,.')
     path, fullPath = searchAlgo.DLS()
@@ -123,12 +155,10 @@ def main():
                                                                                                              , 100, 2, 2, 2, 40, 30, 2, 2
                                                                                                              , 100, 100, 3, 15, 30, 100, 2
                                                                                                              , 100, 0, 2, 100, 30])
+
     path, fullPath, TotalCost = searchAlgo.BFS()
     print('** UCS **\nPath is: ' + str(path) + '\nFull Path is: ' + str(fullPath) + '\nTotal Cost: ' + str(
         TotalCost) + '\n\n')
                #######################################################################################
-
-
-
-
+      
 main()
