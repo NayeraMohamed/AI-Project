@@ -80,7 +80,6 @@ class SearchAlgorithms:
                     maze[i][j].down = maze[i + 1][j]
                     maze[i][j].left = maze[i][j - 1]
                     maze[i][j].right = maze[i][j + 1]
-        pass
 
     def DLS(self):
         # Fill the correct path in self.path
