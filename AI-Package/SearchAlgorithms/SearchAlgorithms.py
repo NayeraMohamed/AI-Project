@@ -94,6 +94,44 @@ class SearchAlgorithms:
     def BFS(self):
         # Fill the correct path in self.path
         # self.fullPath should contain the order of visited nodes
+        open = [self.startNode]
+        closed = []
+        self.fullPath.append(self.startNode)
+        while len(open) > 0:
+            currentNode=open.pop(0)
+
+            #If goal is reached, then build Path
+            if currentNode==self.goalNode:0
+                pathh=[]
+                while currentNode != self.startNode:
+                    pathh.append(currentNode.id)
+                    self.totalCost+=self.totalCost+currentNode.hOfN
+                    currentNode=currentNode.previousNode
+                self.path=pathh[::-1]
+                return self.path, self.fullPath, self.totalCost
+
+            #If we didn't reach the goalNode, then loop on the children
+            neighbors = [currentNode.up, currentNode.down, currentNode.right, currentNode.left]
+            for child in neighbors:
+                if(child==None or child.value == '#'):
+                    continue
+                #checking if it's not found in open and closed lists, checking with id bec it's a unique value
+                '''bool openContains =any(node for node in open if node.id == child.id) (another syntax if the other didn't work)
+                bool closedContains =any(node for node in closed if node.id == child.id) (another syntax)'''
+                bool openContains = any(node.get('id') == child.id for node in open)
+                bool closedContains = any(node.get('id') == child.id for node in closed)
+                if(openContains==False and closedContains==False):
+                    open.append(child)
+                    self.fullPath.append(child)
+                    child.previousNode=currentNode
+            if len(open) > 0:
+                #sorting ascendingly based on heristic Value
+                open.sort(key=lambda x:x.hOfN)
+            closed.append(currentNode)
+        #No solution found
+        self.path=[]
+        self.fullPath=[]
+        self.totalCost=0
         return self.path, self.fullPath, self.totalCost
 
 def main():
