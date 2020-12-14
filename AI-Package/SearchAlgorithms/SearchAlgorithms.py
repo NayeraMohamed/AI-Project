@@ -22,12 +22,64 @@ class SearchAlgorithms:
     path = []  # Represents the correct path from start node to the goal node.
     fullPath = []  # Represents all visited nodes from the start node to the goal node.
     totalCost = -1  # Represents the total cost in case using UCS, AStar (Euclidean or Manhattan)
+    startNode = None
+    goalNode = None
 
     def __init__(self, mazeStr, heristicValue=None):
+
         ''' mazeStr contains the full board
          The board is read row wise,
         the nodes are numbered 0-based starting
         the leftmost node'''
+        rows = mazeStr.split()
+        rowsNumber, colsNumber = (len(rows), len(rows[0]) / 2 + 1)
+        maze = [[Node('S') for j in range(colsNumber)] for i in range(rowsNumber)]
+        idCounter = 0
+        heristicCounter = 0
+        for i in range(rowsNumber):
+            columnCounter = 0
+            for j in range(colsNumber):
+                maze[i][j].id = idCounter
+                maze[i][j].value = rows[i][columnCounter]
+                if maze[i][j].value == 'S':
+                    startNode = maze[i][j].value
+                if maze[i][j].value == 'E':
+                    goalNode = maze[i][j].value
+                if heristicValue is not None:
+                    maze[i][j].hOfN = heristicValue[heristicCounter]
+                    heristicCounter += 1
+                idCounter += 1
+                columnCounter += 2 #to ignore column separators(',')
+                #first row
+                if i == 0:
+                    maze[i][j].down = maze[i + 1][j]
+                    if j is not 0:
+                        maze[i][j].left = maze[i][j - 1]
+                    if j is not colsNumber - 1:
+                        maze[i][j].right = maze[i][j + 1]
+                #last row
+                elif i == rowsNumber - 1:
+                    maze[i][j].up = maze[i-1][j]
+                    if j is not 0:
+                        maze[i][j].left = maze[i][j - 1]
+                    if j is not colsNumber - 1:
+                        maze[i][j].right = maze[i][j + 1]
+                #first column
+                elif j == 0:
+                    maze[i][j].up = maze[i - 1][j]
+                    maze[i][j].down = maze[i + 1][j]
+                    maze[i][j].right = maze[i][j + 1]
+                #last column
+                elif j == colsNumber - 1:
+                    maze[i][j].up = maze[i - 1][j]
+                    maze[i][j].down = maze[i + 1][j]
+                    maze[i][j].left = maze[i][j - 1]
+                #cells at the center
+                else:
+                    maze[i][j].up = maze[i - 1][j]
+                    maze[i][j].down = maze[i + 1][j]
+                    maze[i][j].left = maze[i][j - 1]
+                    maze[i][j].right = maze[i][j + 1]
         pass
 
     def DLS(self):
@@ -45,8 +97,6 @@ class SearchAlgorithms:
         # self.fullPath should contain the order of visited nodes
         return self.path, self.fullPath, self.totalCost
 
-
-
 def main():
     searchAlgo = SearchAlgorithms('S,.,.,#,.,.,. .,#,.,.,.,#,. .,#,.,.,.,.,. .,.,#,#,.,.,. #,.,#,E,.,#,.')
     path, fullPath = searchAlgo.DLS()
@@ -60,16 +110,14 @@ def main():
                 #######################################################################################
 
     searchAlgo = SearchAlgorithms('S,.,.,#,.,.,. .,#,.,.,.,#,. .,#,.,.,.,.,. .,.,#,#,.,.,. #,.,#,E,.,#,.', [0, 15, 2, 100, 60, 35, 30, 3
-                                                                                                             , 100, 2, 15, 60, 100, 30, 2
-                                                                                                             , 100, 2, 2, 2, 40, 30, 2, 2
-                                                                                                             , 100, 100, 3, 15, 30, 100, 2
-                                                                                                             , 100, 0, 2, 100, 30])
+                                                                                                            , 100, 2, 15, 60, 100, 30, 2
+                                                                                                            , 100, 2, 2, 2, 40, 30, 2, 2
+                                                                                                            , 100, 100, 3, 15, 30, 100, 2
+                                                                                                           , 100, 0, 2, 100, 30])
     path, fullPath, TotalCost = searchAlgo.BFS()
     print('** UCS **\nPath is: ' + str(path) + '\nFull Path is: ' + str(fullPath) + '\nTotal Cost: ' + str(
         TotalCost) + '\n\n')
                #######################################################################################
-
-
 
 
 main()
