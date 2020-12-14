@@ -32,14 +32,23 @@ class SearchAlgorithms:
         the leftmost node'''
 
         #will need obj from class Node to access the maze array and set startNode and goalNode here
-        
+
         '''self.startNode.id=mazeStr[0]
         self.startNode.hOfN=heristicValue[0]
 
         res=mazeStr.find('E')
         self.goalNode.id=mazeStr[res]
         self.startNode.hOfN=heristicValue[res];'''
-        pass
+        Node = [Node] * 3
+        for y1 in range(1,3):
+            fake[y1] = [Node] * 3
+        fake[0][0].value='S'
+        fake[0][0].id=1
+        fake[0][0].right= Node('#')
+
+        fake[0][1].value='S'
+        fake[1][0].value='S'
+        fake[1][1].value='S'
 
     def DLS(self):
         # Fill the correct path in self.path
@@ -61,6 +70,7 @@ class SearchAlgorithms:
             #sorting ascendingly based on heristic Value
             open.sort(key=lamda, x:x.hOfN, reverse=False)
             currentNode=open.pop(0)
+
             #if goal is reached, then build Path
             if currentNode==self.goalNode:
                 #Missing how to construct Fullpath?
@@ -80,16 +90,20 @@ class SearchAlgorithms:
                 #checking if it's not found in open and closed lists, checking with id bec it's a unique value
                 #bool openContains =any(node for node in open if node.id == child.id) (another syntax if the other didn't work)
                 #bool closedContains =any(node for node in closed if node.id == child.id) (another syntax)
-                if(child.value == '#'):
+                if(cild==None or child.value == '#'):
                     continue
                 bool openContains = any(node.get('id') == child.id for node in open)
                 bool closedContains = any(node.get('id') == child.id for node in closed)
-                if(openContains==False AND closedContains==False):
+                if(openContains==False and closedContains==False):
                     open.append(child)
                     self.fullPath.append(child)
                     child.previousNode=currentNode
             closed.append(currentNode)
-        return None
+        #No solution found    
+        self.path=[]
+        self.fullPath=[]
+        self.totalCost=0
+        return self.path, self.fullPath, self.totalCost
 
 
 def main():
