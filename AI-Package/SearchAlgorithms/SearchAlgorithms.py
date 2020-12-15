@@ -53,14 +53,14 @@ class SearchAlgorithms:
                 #first row
                 if i == 0:
                     maze[i][j].down = maze[i + 1][j]
-                    if j is not 0:
+                    if j != 0:
                         maze[i][j].left = maze[i][j - 1]
                     if j is not colsNumber - 1:
                         maze[i][j].right = maze[i][j + 1]
                 #last row
                 elif i == rowsNumber - 1:
                     maze[i][j].up = maze[i-1][j]
-                    if j is not 0:
+                    if j != 0:
                         maze[i][j].left = maze[i][j - 1]
                     if j is not colsNumber - 1:
                         maze[i][j].right = maze[i][j + 1]
