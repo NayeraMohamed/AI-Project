@@ -42,9 +42,9 @@ class SearchAlgorithms:
                 maze[i][j].id = idCounter
                 maze[i][j].value = rows[i][columnCounter]
                 if maze[i][j].value == 'S':
-                    startNode = maze[i][j].value
+                    startNode = maze[i][j]
                 if maze[i][j].value == 'E':
-                    goalNode = maze[i][j].value
+                    goalNode = maze[i][j]
                 if heristicValue is not None:
                     maze[i][j].hOfN = heristicValue[heristicCounter]
                     heristicCounter += 1
