@@ -41,10 +41,6 @@ class SearchAlgorithms:
             for j in range(colsNumber):
                 maze[i][j].id = idCounter
                 maze[i][j].value = rows[i][columnCounter]
-                if maze[i][j].value == 'S':
-                    startNode = maze[i][j]
-                if maze[i][j].value == 'E':
-                    goalNode = maze[i][j]
                 if heristicValue is not None:
                     maze[i][j].hOfN = heristicValue[heristicCounter]
                     heristicCounter += 1
@@ -80,6 +76,11 @@ class SearchAlgorithms:
                     maze[i][j].down = maze[i + 1][j]
                     maze[i][j].left = maze[i][j - 1]
                     maze[i][j].right = maze[i][j + 1]
+
+                if maze[i][j].value == 'S':
+                    self.startNode = maze[i][j]
+                if maze[i][j].value == 'E':
+                    self.goalNode = maze[i][j]
 
     def DLS(self):
         # Fill the correct path in self.path
