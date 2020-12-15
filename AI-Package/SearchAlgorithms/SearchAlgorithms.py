@@ -119,9 +119,6 @@ class SearchAlgorithms:
                 if (child == None or child.value == '#'):
                     continue
                 # checking if it's not found in open and closed lists, checking with id bec it's a unique value
-                '''bool openContains =any(node for node in open if node.id == child.id) (another syntax if the other didn't work)
-                bool closedContains =any(node for node in closed if node.id == child.id) (another syntax)'''
-                # bool openContains = any(node.get('id') == child.id for node in open)
                 if child in open:
                     openContains = True
                 else:
