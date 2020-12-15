@@ -32,7 +32,7 @@ class SearchAlgorithms:
         the nodes are numbered 0-based starting
         the leftmost node'''
         rows = mazeStr.split()
-        rowsNumber, colsNumber = (len(rows), len(rows[0]) / 2 + 1)
+        rowsNumber, colsNumber = (len(rows), int(len(rows[0]) / 2) + 1)
         maze = [[Node('S') for j in range(colsNumber)] for i in range(rowsNumber)]
         idCounter = 0
         heristicCounter = 0
@@ -101,7 +101,7 @@ class SearchAlgorithms:
             currentNode=open.pop(0)
 
             #If goal is reached, then build Path
-            if currentNode==self.goalNode:0
+            if currentNode==self.goalNode:
                 pathh=[]
                 while currentNode != self.startNode:
                     pathh.append(currentNode.id)
@@ -116,10 +116,10 @@ class SearchAlgorithms:
                 if(child==None or child.value == '#'):
                     continue
                 #checking if it's not found in open and closed lists, checking with id bec it's a unique value
-                '''bool openContains =any(node for node in open if node.id == child.id) (another syntax if the other didn't work)
-                bool closedContains =any(node for node in closed if node.id == child.id) (another syntax)'''
-                bool openContains = any(node.get('id') == child.id for node in open)
-                bool closedContains = any(node.get('id') == child.id for node in closed)
+                if child in open:
+                    openContains=True
+                if child in closed:
+                    closedContains=True
                 if(openContains==False and closedContains==False):
                     open.append(child)
                     self.fullPath.append(child)
