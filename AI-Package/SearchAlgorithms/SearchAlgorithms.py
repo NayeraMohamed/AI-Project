@@ -1,4 +1,3 @@
-from collections import deque
 class Node:
     id = None  # Unique value for each node.
     up = None  # Represents value of neighbors (up, down, left, right).
@@ -10,9 +9,6 @@ class Node:
     gOfN = None  # Represents the total edge cost
     hOfN = None  # Represents the heuristic value
     heuristicFn = None  # Represents the value of heuristic function
-    parentS = None  #for BDS search
-    parentE = None  #for BDS search
-    
 
     def __init__(self, value):
         self.value = value
@@ -90,88 +86,10 @@ class SearchAlgorithms:
         # Fill the correct path in self.path
         # self.fullPath should contain the order of visited nodes
         return self.path, self.fullPath
-        
-    def BDSpathConstruction(self, intersection):
-        pathS= []
-        pathE= []
-        finalpath =[]
-        intersection2=intersection
-        #finalpath.append(self.startNode.id)
-        
-        while intersection != self.startNode:
-            pathS.append(intersection.parentS.id)
-            intersection=intersection.parentS
-
-        intersection=intersection2
-        while intersection != self.goalNode:
-            pathE.append(intersection.parentE.id)
-            intersection=intersection.parentE
-            
-        pathS.reverse()   
-        finalpath =finalpath+ pathS
-        finalpath.append(intersection2.id)
-        finalpath=finalpath+pathE
-        #finalpath.append(self.goalNode.id)
-        
-            
-        return finalpath
-    
 
     def BDS(self):
         # Fill the correct path in self.path
         # self.fullPath should contain the order of visited nodes
-        Qs = deque()
-        Qe = deque()
-        visitedS=[]
-        visitedE= []
-        
-        Qs.append(self.startNode)
-        visitedS.append(self.startNode.id)
-        Qe.append(self.goalNode)
-        visitedE.append(self.goalNode.id)
-        while Qs and Qe:
-            if Qs:
-                current=Qs.popleft()
-                if current.value=='#':
-                    continue
-                if current == self.goalNode or current.id in visitedE:
-                    self.path= self.BDSpathConstruction(current)
-                    visitedE.reverse()
-                    self.fullPath=list(set().union(visitedS,visitedE))
-                    return self.path , self.fullPath
-                neighbors=[current.left, current.right, current.up, current.down]
-                for n in neighbors:
-                    if n==None or n.value=='#':
-                        continue
-                    else:
-                        if n.id not in visitedS:
-                            visitedS.append(n.id)
-                            n.parentS=current
-                            Qs.append(n)
-                    
-                    
-            if Qe:
-                current=Qe.popleft()
-                if current.value=='#':
-                    continue
-                if current == self.startNode or current.id in visitedS:
-                    self.path= self.BDSpathConstruction(current)
-                    visitedE.reverse()
-                    self.fullPath=list(set().union(visitedS,visitedE))
-                    return self.path , self.fullPath
-                neighbors=[current.left, current.right, current.up, current.down]
-                for n in neighbors:
-                    if n==None or n.value=='#':
-                        continue
-                    else:
-                        if n.id not in visitedE:
-                            visitedE.append(n.id)
-                            n.parentE=current
-                            Qe.append(n)
-                
-                    
-                
-                
         return self.path, self.fullPath
 
     def BFS(self):
@@ -185,13 +103,13 @@ class SearchAlgorithms:
             # If goal is reached, then build Path
             if currentNode == self.goalNode:
                 pathh = []
-                self.totalCost = 0
+                self.totalCost=0
                 while currentNode != self.startNode:
                     pathh.append(currentNode.id)
                     self.totalCost += currentNode.hOfN
                     currentNode = currentNode.previousNode
                 pathh.append(self.startNode.id)
-                self.totalCost += self.startNode.hOfN
+                self.totalCost +=self.startNode.hOfN
                 self.path = pathh[::-1]
                 return self.path, self.fullPath, self.totalCost
 
