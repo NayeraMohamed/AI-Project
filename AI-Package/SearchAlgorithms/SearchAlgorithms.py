@@ -97,18 +97,19 @@ class SearchAlgorithms:
         # self.fullPath should contain the order of visited nodes
         open = [self.startNode]
         closed = []
-        self.fullPath.append(self.startNode.id)
         while len(open) > 0:
             currentNode = open.pop(0)
-
+            self.fullPath.append(currentNode.id)
             # If goal is reached, then build Path
             if currentNode == self.goalNode:
                 pathh = []
+                self.totalCost=0
                 while currentNode != self.startNode:
                     pathh.append(currentNode.id)
-                    self.totalCost += self.totalCost + currentNode.hOfN
+                    self.totalCost += currentNode.hOfN
                     currentNode = currentNode.previousNode
                 pathh.append(self.startNode.id)
+                self.totalCost +=self.startNode.hOfN
                 self.path = pathh[::-1]
                 return self.path, self.fullPath, self.totalCost
 
@@ -132,7 +133,6 @@ class SearchAlgorithms:
                     closedContains = False
                 if (openContains == False and closedContains == False):
                     open.append(child)
-                    self.fullPath.append(child.id)
                     child.previousNode = currentNode
             if len(open) > 0:
                 # sorting ascendingly based on heristic Value
