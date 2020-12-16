@@ -111,10 +111,8 @@ class SearchAlgorithms:
         finalpath.append(intersection2.id)
         finalpath=finalpath+pathE
         #finalpath.append(self.goalNode.id)
-        
             
         return finalpath
-    
 
     def BDS(self):
         # Fill the correct path in self.path
@@ -148,7 +146,6 @@ class SearchAlgorithms:
                             n.parentS=current
                             Qs.append(n)
                     
-                    
             if Qe:
                 current=Qe.popleft()
                 if current.value=='#':
@@ -167,10 +164,7 @@ class SearchAlgorithms:
                             visitedE.append(n.id)
                             n.parentE=current
                             Qe.append(n)
-                
-                    
-                
-                
+
         return self.path, self.fullPath
 
 
@@ -244,6 +238,5 @@ def main():
     print('** UCS **\nPath is: ' + str(path) + '\nFull Path is: ' + str(fullPath) + '\nTotal Cost: ' + str(
         TotalCost) + '\n\n')
                #######################################################################################
-
 
 main()
