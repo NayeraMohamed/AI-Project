@@ -93,6 +93,9 @@ class SearchAlgorithms:
         self.RecursiveDLS(self.startNode, visited, limit)
         node = self.goalNode
         while node != self.startNode:
+            if node is None:
+                self.path = []
+                break;
             self.path.append(node.id)
             node = node.previousNode
         self.path.append(self.startNode.id)
