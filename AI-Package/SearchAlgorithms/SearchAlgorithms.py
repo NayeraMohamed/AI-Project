@@ -84,11 +84,39 @@ class SearchAlgorithms:
                     self.startNode = maze[i][j]
                 if maze[i][j].value == 'E':
                     self.goalNode = maze[i][j]
+        #clearing path and full path from previous calls
+        self.path.clear()
+        self.fullPath.clear()
 
     def DLS(self):
         # Fill the correct path in self.path
         # self.fullPath should contain the order of visited nodes
+        limit = 50
+        # if a path is found, backtrack to construct the correct path
+        if (self.RecursiveDLS(self.startNode, limit)):
+            node = self.goalNode
+            while node != self.startNode:
+                self.path.append(node.id)
+                node = node.previousNode
+            self.path.append(self.startNode.id)
+            self.path.reverse()
         return self.path, self.fullPath
+
+    def RecursiveDLS(self, node, limit):
+        self.fullPath.append(node.id)
+        if node == self.goalNode:
+            return True
+        if limit <= 0:
+            return False
+        children = [node.up, node.down, node.left, node.right]
+        for child in children:
+            if child is not None and child.value != '#':
+                if child.id not in self.fullPath:
+                    # save parent info to use it while backtracking
+                    child.previousNode = node
+                    if (self.RecursiveDLS(child, limit - 1)):
+                        return True
+        return False
 
     def BDSpathConstruction(self, intersection):
         pathS= []
@@ -111,10 +139,8 @@ class SearchAlgorithms:
         finalpath.append(intersection2.id)
         finalpath=finalpath+pathE
         #finalpath.append(self.goalNode.id)
-        
             
         return finalpath
-    
 
     def BDS(self):
         # Fill the correct path in self.path
@@ -138,7 +164,7 @@ class SearchAlgorithms:
                     visitedE.reverse()
                     self.fullPath=list(set().union(visitedS,visitedE))
                     return self.path , self.fullPath
-                neighbors=[current.left, current.right, current.up, current.down]
+                neighbors=[current.up, current.down, current.left, current.right]
                 for n in neighbors:
                     if n==None or n.value=='#':
                         continue
@@ -147,7 +173,6 @@ class SearchAlgorithms:
                             visitedS.append(n.id)
                             n.parentS=current
                             Qs.append(n)
-                    
                     
             if Qe:
                 current=Qe.popleft()
@@ -158,7 +183,7 @@ class SearchAlgorithms:
                     visitedE.reverse()
                     self.fullPath=list(set().union(visitedS,visitedE))
                     return self.path , self.fullPath
-                neighbors=[current.left, current.right, current.up, current.down]
+                neighbors=[current.up, current.down, current.left, current.right]
                 for n in neighbors:
                     if n==None or n.value=='#':
                         continue
@@ -167,10 +192,7 @@ class SearchAlgorithms:
                             visitedE.append(n.id)
                             n.parentE=current
                             Qe.append(n)
-                
-                    
-                
-                
+
         return self.path, self.fullPath
 
 
@@ -196,7 +218,7 @@ class SearchAlgorithms:
                 return self.path, self.fullPath, self.totalCost
 
             # If we didn't reach the goalNode, then loop on the children
-            neighbors = [currentNode.up, currentNode.down, currentNode.right, currentNode.left]
+            neighbors = [currentNode.up, currentNode.down, currentNode.left, currentNode.right]
             for child in neighbors:
                 if (child == None or child.value == '#'):
                     continue
@@ -244,6 +266,5 @@ def main():
     print('** UCS **\nPath is: ' + str(path) + '\nFull Path is: ' + str(fullPath) + '\nTotal Cost: ' + str(
         TotalCost) + '\n\n')
                #######################################################################################
-
 
 main()
