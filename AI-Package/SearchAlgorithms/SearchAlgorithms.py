@@ -92,29 +92,30 @@ class SearchAlgorithms:
         # Fill the correct path in self.path
         # self.fullPath should contain the order of visited nodes
         limit = 50
-        self.RecursiveDLS(self.startNode, limit)
-        node = self.goalNode
-        if node.id in self.fullPath:
-            #backtracking to get the correct path
-             while node != self.startNode:
+        # if a path is found, backtrack to construct the correct path
+        if (self.RecursiveDLS(self.startNode, limit)):
+            node = self.goalNode
+            while node != self.startNode:
                 self.path.append(node.id)
                 node = node.previousNode
-             self.path.append(self.startNode.id)
-             self.path.reverse()
+            self.path.append(self.startNode.id)
+            self.path.reverse()
         return self.path, self.fullPath
 
     def RecursiveDLS(self, node, limit):
         self.fullPath.append(node.id)
         if node == self.goalNode:
-            return
-        if limit == 0:
-            return
+            return True
+        if limit <= 0:
+            return False
         children = [node.up, node.down, node.left, node.right]
         for child in children:
             if child is not None and child.value != '#':
                 if child.id not in self.fullPath:
+                    # save parent info to use it while backtracking
                     child.previousNode = node
-                    self.RecursiveDLS(child, limit - 1)
+                    if (self.RecursiveDLS(child, limit - 1)):
+                        return True
 
     def BDSpathConstruction(self, intersection):
         pathS= []
