@@ -116,6 +116,7 @@ class SearchAlgorithms:
                     child.previousNode = node
                     if (self.RecursiveDLS(child, limit - 1)):
                         return True
+        return False
 
     def BDSpathConstruction(self, intersection):
         pathS= []
