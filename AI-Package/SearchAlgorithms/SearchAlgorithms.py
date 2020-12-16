@@ -84,7 +84,7 @@ class SearchAlgorithms:
                     self.startNode = maze[i][j]
                 if maze[i][j].value == 'E':
                     self.goalNode = maze[i][j]
-        #clearing path and full path from previous calls made
+        #clearing path and full path from previous calls
         self.path.clear()
         self.fullPath.clear()
 
