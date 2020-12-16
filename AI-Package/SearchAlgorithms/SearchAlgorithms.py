@@ -109,7 +109,7 @@ class SearchAlgorithms:
             return
         if limit == 0:
             return
-        children = [node.up, node.down, node.right, node.left]
+        children = [node.up, node.down, node.left, node.right]
         for child in children:
             if child is not None and child.value != '#':
                 if child.id not in visited:
@@ -162,7 +162,7 @@ class SearchAlgorithms:
                     visitedE.reverse()
                     self.fullPath=list(set().union(visitedS,visitedE))
                     return self.path , self.fullPath
-                neighbors=[current.left, current.right, current.up, current.down]
+                neighbors=[current.up, current.down, current.left, current.right]
                 for n in neighbors:
                     if n==None or n.value=='#':
                         continue
@@ -181,7 +181,7 @@ class SearchAlgorithms:
                     visitedE.reverse()
                     self.fullPath=list(set().union(visitedS,visitedE))
                     return self.path , self.fullPath
-                neighbors=[current.left, current.right, current.up, current.down]
+                neighbors=[current.up, current.down, current.left, current.right]
                 for n in neighbors:
                     if n==None or n.value=='#':
                         continue
@@ -216,7 +216,7 @@ class SearchAlgorithms:
                 return self.path, self.fullPath, self.totalCost
 
             # If we didn't reach the goalNode, then loop on the children
-            neighbors = [currentNode.up, currentNode.down, currentNode.right, currentNode.left]
+            neighbors = [currentNode.up, currentNode.down, currentNode.left, currentNode.right]
             for child in neighbors:
                 if (child == None or child.value == '#'):
                     continue
