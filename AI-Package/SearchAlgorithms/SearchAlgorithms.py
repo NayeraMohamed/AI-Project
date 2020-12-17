@@ -241,7 +241,6 @@ class SearchAlgorithms:
             closed.append(currentNode)
         # No solution found
         self.path = []
-        self.fullPath = []
         self.totalCost = 0
         return self.path, self.fullPath, self.totalCost
 
