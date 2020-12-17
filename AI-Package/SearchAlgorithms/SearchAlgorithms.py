@@ -161,8 +161,14 @@ class SearchAlgorithms:
                     continue
                 if current == self.goalNode or current.id in visitedE:
                     self.path= self.BDSpathConstruction(current)
-                    visitedE.reverse()
-                    self.fullPath=list(set().union(visitedS,visitedE))
+                    E = visitedE
+                    S= visitedS
+                    setE= set(E)
+                    setS= set(S)
+                    differentnodes = list(setE - setS)
+                    self.fullPath= S+ differentnodes
+                    
+                    #self.fullPath=list(set().union(visitedS,visitedE))
                     return self.path , self.fullPath
                 neighbors=[current.up, current.down, current.left, current.right]
                 for n in neighbors:
@@ -180,8 +186,15 @@ class SearchAlgorithms:
                     continue
                 if current == self.startNode or current.id in visitedS:
                     self.path= self.BDSpathConstruction(current)
-                    visitedE.reverse()
-                    self.fullPath=list(set().union(visitedS,visitedE))
+                    #visitedE.reverse()
+                    E = visitedE
+                    S= visitedS
+                    setE= set(E)
+                    setS= set(S)
+                    differentnodes = list(setE - setS)
+                    self.fullPath= S+ differentnodes
+             
+                    #self.fullPath=list(set().union(visitedS,visitedE))
                     return self.path , self.fullPath
                 neighbors=[current.up, current.down, current.left, current.right]
                 for n in neighbors:
