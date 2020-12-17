@@ -36,7 +36,7 @@ class SearchAlgorithms:
         the leftmost node'''
         rows = mazeStr.split()
         rowsNumber, colsNumber = (len(rows), int(len(rows[0]) / 2) + 1)
-        maze = [[Node('S') for j in range(colsNumber)] for i in range(rowsNumber)]
+        maze = [[Node(None) for j in range(colsNumber)] for i in range(rowsNumber)]
         idCounter = 0
         heristicCounter = 0
         for i in range(rowsNumber):
