@@ -100,8 +100,6 @@ class SearchAlgorithms:
                 node = node.previousNode
             self.path.append(self.startNode.id)
             self.path.reverse()
-        else:
-            self.fullPath.clear()
         return self.path, self.fullPath
 
     def RecursiveDLS(self, node, limit):
